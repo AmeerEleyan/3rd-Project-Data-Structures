@@ -104,11 +104,11 @@ public class LinkedList<T extends Comparable<T>> {
                 Node<T> current = this.head;
                 Node<T> previous = null;
                 // sort descending
-                if (element.compareTo(current.getData()) > 0) { // data for element larger than data of head
+                if (element.compareTo(current.getData()) < 0) { // data for element larger than data of head
                     insertAtFirst(element);
                 } else {
                     // data for element less than data of head
-                    while ((current != null) && (element.compareTo(current.getData()) <= 0)) {
+                    while ((current != null) && (element.compareTo(current.getData()) >= 0)) {
                         previous = current;
                         current = current.getNext();
                     }
@@ -271,7 +271,7 @@ public class LinkedList<T extends Comparable<T>> {
         String str = "";
         Node<T> strNode = this.head;
         while (strNode != null) {
-            str += strNode.getData();
+            str += strNode.getData()+"\n";
             strNode = strNode.getNext();
         }
         return str;
