@@ -7,7 +7,7 @@ public class Babys implements Comparable<Babys> {
      */
     private String name;
     private char gender;
-    private int frequency;
+    private Frequency frequency;
 
     // no arg constructor
     public Babys() {
@@ -15,19 +15,20 @@ public class Babys implements Comparable<Babys> {
     }
 
     // constructor with a specific data
-    public Babys(String name, char gender, int frequency) {
+    public Babys(String name, char gender, Frequency frequency) {
         this.name = name;
         this.gender = Character.toUpperCase(gender);
         this.frequency = frequency;
+
     }
 
     // constructor with line of data
-    public Babys(String lineOfDate) {
+    public Babys(String lineOfDate, int year) {
         int FirstQ = lineOfDate.indexOf(',');
         int LastQ = lineOfDate.lastIndexOf(',');
         this.name = lineOfDate.substring(0, FirstQ).trim();
         this.gender = Character.toUpperCase((lineOfDate.substring(FirstQ + 1, LastQ)).trim().charAt(0));
-        this.frequency = Integer.parseInt(lineOfDate.substring(LastQ + 1).trim());
+        this.frequency = new Frequency(year, Integer.parseInt(lineOfDate.substring(LastQ + 1).trim()));
     }
 
     // return the name of this baby
@@ -47,18 +48,22 @@ public class Babys implements Comparable<Babys> {
 
     // set a new gander for this baby
     public void setGender(char gender) {
-        this.gender = gender;
+        this.gender = Character.toUpperCase(gender);
     }
 
-    // return the frequency of this object
-    public int getFrequency() {
+    // Return the frequency of this baby
+    public Frequency getFrequency() {
         return this.frequency;
     }
 
-
-    // set a new frequency for this object
-    public void setFrequency(int frequency) {
+    // set a new frequency for this baby
+    public void setFrequency(Frequency frequency) {
         this.frequency = frequency;
+    }
+
+    // clear frequency for this baby
+    public void clearFrequency() {
+        this.frequency = null;
     }
 
     // check baby if is female
@@ -83,13 +88,9 @@ public class Babys implements Comparable<Babys> {
         int compareName = this.name.compareTo(o.name);
         int thisGender = this.gender;
         int objGender = o.gender;
-        if (compareName != 0) {
-            return compareName;
-        } else {
-            if (thisGender == objGender) return 0;
-            else if (thisGender > objGender) return 1;
-            else return -1;
-        }
+        if (compareName == 0) return Integer.compare(thisGender, objGender);
+        else return compareName;
+
     }
 
     // compare to baby based of the name and gander

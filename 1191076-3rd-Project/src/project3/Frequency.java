@@ -51,8 +51,13 @@ public class Frequency implements Comparable<Frequency> {
     // compare two obj based on the year
     @Override
     public int compareTo(Frequency o) {
-        if (this.year == o.year) return 0;
-        else if (this.year > o.year) return 1;
-        return -1;
+        return Integer.compare(this.year, o.year);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Frequency)
+            return (this.year == ((Frequency) obj).year);
+        return false;
     }
 }

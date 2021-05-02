@@ -5,6 +5,9 @@
  */
 package Lists;
 
+import project3.Babys;
+import project3.Frequency;
+
 public class AVL_Tree<T extends Comparable<T>> {
     /**
      * Attribute
@@ -163,6 +166,10 @@ public class AVL_Tree<T extends Comparable<T>> {
         } else {
             TNode<T> tempRoot = this.root;
             this.add(data, tempRoot);
+            
+            // clear frequency obj
+            if (data instanceof Babys) ((Babys) data).clearFrequency();
+
             this.root = this.rebalance(tempRoot);
             this.size++;
         }
@@ -170,9 +177,18 @@ public class AVL_Tree<T extends Comparable<T>> {
 
     // Add new element to the tree recursively and set tree rebalance
     private void add(T data, TNode<T> root) {
+        if (data.compareTo(root.getDate()) == 0 && data instanceof Babys) {
+            // add Frequency obj to linkedList that inside node and clear object
+            root.insertToLinkedList(((Babys) data).getFrequency());
+            return;
+        }
         if (data.compareTo(root.getDate()) < 0) { // element less than current (add to left)
             if (!root.hasLeft()) { // current does not have left child
                 root.setLeft(new TNode<>(data));
+                // add Frequency obj to linkedList that inside node and clear object
+                if (data instanceof Babys)
+                    root.insertToLinkedList(((Babys) data).getFrequency());
+
             } else {// current has left child
                 TNode<T> leftChild = root.getLeft();
                 add(data, leftChild);//O(log n)
@@ -182,6 +198,9 @@ public class AVL_Tree<T extends Comparable<T>> {
         } else if (data.compareTo(root.getDate()) > 0) { // element larger then current (add to right)
             if (!root.hasRight()) { // current does not have right child
                 root.setRight(new TNode<>(data));
+                // add Frequency obj to linkedList that inside node and clear object
+                if (data instanceof Babys)
+                    root.insertToLinkedList(((Babys) data).getFrequency());
             } else {// current has right child
                 TNode<T> rightChild = root.getRight();
                 add(data, rightChild);//O(log n)

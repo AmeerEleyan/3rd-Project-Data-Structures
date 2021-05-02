@@ -5,6 +5,8 @@
  */
 package Lists;
 
+import project3.Frequency;
+
 public class TNode<T extends Comparable<T>> implements Comparable<TNode<T>> {
 
     /**
@@ -12,6 +14,7 @@ public class TNode<T extends Comparable<T>> implements Comparable<TNode<T>> {
      */
     private T date;
     private TNode<T> left, right;
+    private final LinkedList<Frequency> frequencyLinkedList = new LinkedList<>();
 
     /**
      * No argument constructor
@@ -24,6 +27,13 @@ public class TNode<T extends Comparable<T>> implements Comparable<TNode<T>> {
      */
     public TNode(T date) {
         this.date = date;
+    }
+
+    /**
+     * Add new frequency obj tp linked list to prevent duplication in the tree
+     */
+    public void insertToLinkedList(Frequency frequency) {
+        this.frequencyLinkedList.addBySort(frequency);
     }
 
     /**
@@ -66,6 +76,13 @@ public class TNode<T extends Comparable<T>> implements Comparable<TNode<T>> {
      */
     public void setRight(TNode<T> right) {
         this.right = right;
+    }
+
+    /**
+     * return the linkedList that inside in the node
+     */
+    public LinkedList<Frequency> getFrequencyLinkedList() {
+        return this.frequencyLinkedList;
     }
 
     /**

@@ -38,9 +38,11 @@ public class Main extends Application {
         System.out.println("Upload");
         if (list != null) {
             for (File file : list) {
-                System.out.println(file.getName());
+                System.out.println(Utilities.getYearFromFileName(file.getName()));
+
             }
         }
         System.out.println("uploading");
+
     }
 }
