@@ -6,9 +6,6 @@
 package Lists;
 
 import project3.Babys;
-import project3.Frequency;
-
-import java.util.Queue;
 
 public class AVL_Tree<T extends Comparable<T>> {
     /**
@@ -71,11 +68,11 @@ public class AVL_Tree<T extends Comparable<T>> {
      * To search a specific element in the tree and return it
      * O(log n)
      */
-    public T search(T data) {
+    public TNode<T> search(T data) {
         TNode<T> searcher = this.root;
         while (searcher != null) {
             int compare = data.compareTo(searcher.getDate());
-            if (compare == 0) return searcher.getDate();
+            if (compare == 0) return searcher;
             else if (compare > 0) searcher = searcher.getRight();
             else searcher = searcher.getLeft();
         }
@@ -192,7 +189,8 @@ public class AVL_Tree<T extends Comparable<T>> {
             this.add(data, tempRoot);
 
             // clear frequency obj
-           // if (data instanceof Babys) ((Babys) data).clearFrequency();
+            if (data instanceof Babys) ((Babys) data).clearFrequency();
+            System.gc();
 
             this.root = this.rebalance(tempRoot);
         }

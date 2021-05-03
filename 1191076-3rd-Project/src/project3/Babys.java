@@ -22,6 +22,13 @@ public class Babys implements Comparable<Babys> {
 
     }
 
+    // constructor with a specific data
+    public Babys(String name, char gender) {
+        this.name = name;
+        this.gender = Character.toUpperCase(gender);
+    }
+
+
     // constructor with line of data
     public Babys(String lineOfDate, int year) {
         int FirstQ = lineOfDate.indexOf(',');

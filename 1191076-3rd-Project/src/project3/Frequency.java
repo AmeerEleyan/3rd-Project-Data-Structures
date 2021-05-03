@@ -22,6 +22,12 @@ public class Frequency implements Comparable<Frequency> {
         this.frequency = frequency;
     }
 
+
+    // constructor with year as argument
+    public Frequency(int year) {
+        this.year = year;
+    }
+
     // return the year for this obj
     public int getYear() {
         return this.year;

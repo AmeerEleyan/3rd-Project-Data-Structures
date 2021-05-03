@@ -6,6 +6,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -16,21 +17,26 @@ import java.util.Scanner;
 
 
 public class Main extends Application {
-    Pane pane;
     Stage window;
 
     @Override
 
     public void start(Stage stage) throws Exception {
+        AVL_Tree<Babys> babysAVL_tree = new AVL_Tree<>();
         window = stage;
         Button btUpload = new Button("Upload");
-        pane = new Pane(btUpload);
+        VBox vBox = new VBox(10);
+        vBox.setAlignment(Pos.CENTER);
         btUpload.setAlignment(Pos.CENTER);
-        AVL_Tree<Babys> babysAVL_tree = new AVL_Tree<>();
+        Button btSerach = new Button("Search");
+        btSerach.setOnAction(e-> {
+           // System.out.println(Utilities.totalNumberOfBabysInSelectedYear(babysAVL_tree, 2001));
+        });
         btUpload.setOnAction(e -> {
             upload(babysAVL_tree);
         });
-        window.setScene(new Scene(pane, 200, 200));
+        vBox.getChildren().addAll(btUpload,btSerach);
+        window.setScene(new Scene(vBox, 200, 200));
         window.show();
     }
 
@@ -47,6 +53,7 @@ public class Main extends Application {
             for (File file : list) {
                 // System.out.println(file.getName());
                 int year = Utilities.getYearFromFileName(file.getName());
+                Utilities.years.addBySort(year);
                 //  if(year != 0) ;
                 readPurchaseDataFromAFile(file, babysAVL_tree, year);
             }
