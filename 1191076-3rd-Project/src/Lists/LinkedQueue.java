@@ -99,7 +99,7 @@ public class LinkedQueue<T extends Comparable<T>> {
         StringBuilder str = new StringBuilder(); // to store the data as a string
 
         while (current != null) {
-            str.append(current);
+            str.append(current).append("\n");
             current = current.getNext();
         }
         return str.toString();

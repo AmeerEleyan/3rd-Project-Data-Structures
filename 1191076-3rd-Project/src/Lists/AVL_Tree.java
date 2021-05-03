@@ -8,12 +8,13 @@ package Lists;
 import project3.Babys;
 import project3.Frequency;
 
+import java.util.Queue;
+
 public class AVL_Tree<T extends Comparable<T>> {
     /**
      * Attribute
      */
     private TNode<T> root;
-    private int size = 0;
 
     // return the root of this tree
     public TNode<T> getRoot() {
@@ -37,7 +38,28 @@ public class AVL_Tree<T extends Comparable<T>> {
 
     // return the size of the tree
     public int size() {
-        return this.size;
+        TNode<T> rootOfTree = this.root;
+        LinkedQueue<TNode<T>> tempQueue = new LinkedQueue<>();
+        int size = 0;
+        if (rootOfTree != null) {
+
+            tempQueue.enqueue(rootOfTree);
+            while (!tempQueue.isEmpty()) {
+                // store first element in the queue and remove it
+                TNode<T> tempNode = tempQueue.dequeue();
+                size++;
+                // insert first.left to tempQueue
+                if (tempNode.getLeft() != null) {
+                    tempQueue.enqueue(tempNode.getLeft());
+                }
+
+                // insert first.right to tempQueue
+                if (tempNode.getRight() != null) {
+                    tempQueue.enqueue(tempNode.getRight());
+                }
+            }
+        }
+        return size;
     }
 
     // return the height of this tree
@@ -163,31 +185,34 @@ public class AVL_Tree<T extends Comparable<T>> {
     public void insert(T data) {
         if (isEmpty()) {
             this.root = new TNode<>(data);
+            if (data instanceof Babys)
+                root.insertToLinkedList(((Babys) data).getFrequency());
         } else {
             TNode<T> tempRoot = this.root;
             this.add(data, tempRoot);
-            
+
             // clear frequency obj
-            if (data instanceof Babys) ((Babys) data).clearFrequency();
+           // if (data instanceof Babys) ((Babys) data).clearFrequency();
 
             this.root = this.rebalance(tempRoot);
-            this.size++;
         }
+
     }
 
     // Add new element to the tree recursively and set tree rebalance
     private void add(T data, TNode<T> root) {
         if (data.compareTo(root.getDate()) == 0 && data instanceof Babys) {
-            // add Frequency obj to linkedList that inside node and clear object
+            // add Frequency obj to linkedList that inside node
             root.insertToLinkedList(((Babys) data).getFrequency());
-            return;
+         //   return;
         }
-        if (data.compareTo(root.getDate()) < 0) { // element less than current (add to left)
+       else if (data.compareTo(root.getDate()) < 0) { // element less than current (add to left)
             if (!root.hasLeft()) { // current does not have left child
-                root.setLeft(new TNode<>(data));
-                // add Frequency obj to linkedList that inside node and clear object
+                TNode<T> tNode = new TNode<>(data);
+                root.setLeft(tNode);
+                // add Frequency obj to linkedList that inside node
                 if (data instanceof Babys)
-                    root.insertToLinkedList(((Babys) data).getFrequency());
+                    tNode.insertToLinkedList(((Babys) data).getFrequency());
 
             } else {// current has left child
                 TNode<T> leftChild = root.getLeft();
@@ -197,10 +222,11 @@ public class AVL_Tree<T extends Comparable<T>> {
 
         } else if (data.compareTo(root.getDate()) > 0) { // element larger then current (add to right)
             if (!root.hasRight()) { // current does not have right child
-                root.setRight(new TNode<>(data));
-                // add Frequency obj to linkedList that inside node and clear object
+                TNode<T> tNode = new TNode<>(data);
+                root.setRight(tNode);
+                // add Frequency obj to linkedList that inside node
                 if (data instanceof Babys)
-                    root.insertToLinkedList(((Babys) data).getFrequency());
+                    tNode.insertToLinkedList(((Babys) data).getFrequency());
             } else {// current has right child
                 TNode<T> rightChild = root.getRight();
                 add(data, rightChild);//O(log n)
@@ -217,7 +243,6 @@ public class AVL_Tree<T extends Comparable<T>> {
         if (temp != null) {
             TNode<T> rootTNode = root;
             root = rebalance(rootTNode);
-            this.size--;
             return temp.getDate();
         }
         return null;
