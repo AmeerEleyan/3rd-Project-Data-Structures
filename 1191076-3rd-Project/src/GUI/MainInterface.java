@@ -1,8 +1,7 @@
 package GUI;
 
-import Lists.AVL_Tree;
 import Lists.Node;
-import Project.BabyForTable;
+import Project.BabyForTraverse;
 import Project.Babys;
 import Project.Utilities;
 import javafx.application.Application;
@@ -11,6 +10,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -24,10 +24,10 @@ import java.util.Scanner;
 
 public class MainInterface extends Application {
     private static Stage window;
-    private static TableView<BabyForTable> babysTableView;
-    private static TextField txtTotalFrequencyForTable, txtTotalFrequencyForFunctions;
-    private static Button btAverage, btNameOfMaxFreq, btExport;
-    private static Label lblTotalFrequency;
+    private static TableView<BabyForTraverse> babysTableView;
+    private static TextField txtTotalFrequencyForTable, txtTotalFrequencyForFunctions, txtTotalRecord;
+    private static Button btAverage, btNameOfMaxFreq, btExport, btUpload, btSearch;
+    private static Label lblTotalFrequencyForTable, lblTotalFrequencyForFunctions, lblTotalRecord;
     private static ComboBox<Integer> years;
 
     // Style for buttons
@@ -39,22 +39,12 @@ public class MainInterface extends Application {
             "-fx-text-fill: #ffffff; -fx-font-family: 'Times New Roman'; ";
 
     @Override
-    public void start(Stage stage) throws Exception {
-        AVL_Tree<Babys> babysAVL_tree = new AVL_Tree<>();
+    public void start(Stage stage) {
         window = stage;
-        Button btUpload = new Button("Upload");
-        VBox vBox = new VBox(10);
-        vBox.setAlignment(Pos.CENTER);
-        btUpload.setAlignment(Pos.CENTER);
-        Button btSerach = new Button("Search");
-        btSerach.setOnAction(e -> {
-            // System.out.println(Utilities.totalNumberOfBabysInSelectedYear(babysAVL_tree, 2001));
-        });
-        btUpload.setOnAction(e -> {
-            //  uploadFiles(babysAVL_tree);
-        });
-        vBox.getChildren().addAll(btUpload, btSerach);
-        window.setScene(new Scene(vBox, 200, 200));
+        window.setScene(new Scene(allComponents()));
+        Actions();
+        window.setResizable(false);
+        window.setTitle("Babys");
         window.show();
     }
 
@@ -75,6 +65,13 @@ public class MainInterface extends Application {
                     readBabyRecordFromFile(file, year);
                 else
                     Message.displayMessage("Warning", "The year is not defined in file " + file.getName());
+            }
+            updateTable();
+            years.getItems().clear();
+            Node<Integer> current = Utilities.years.getHead();
+            while (current != null) {
+                years.getItems().add(current.getData());
+                current = current.getNext();
             }
         }
     }
@@ -117,18 +114,19 @@ public class MainInterface extends Application {
     /**
      * Table view to display baby record
      */
-    public static TableView<BabyForTable> babysTableView() {
+    public static TableView<BabyForTraverse> babysTableView() {
 
         babysTableView = new TableView<>();
         babysTableView.setEditable(false);
-        babysTableView.setMinWidth(350);
+
+        babysTableView.setMaxWidth(450);
         babysTableView.setMinHeight(450);
         babysTableView.setStyle("-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-width:2; -fx-font-family:" +
                 "'Times New Roman'; -fx-font-size:17; -fx-text-fill: #000000; -fx-font-weight: BOLd; ");
 
 
         // column for name of the baby
-        TableColumn<BabyForTable, String> name = new TableColumn<>("Name");
+        TableColumn<BabyForTraverse, String> name = new TableColumn<>("Name");
         name.setMinWidth(150);
         name.setSortable(false);
         name.setResizable(false);
@@ -137,8 +135,8 @@ public class MainInterface extends Application {
 
 
         // column for the gender of the baby
-        TableColumn<BabyForTable, Character> gender = new TableColumn<>("Gender");
-        gender.setMinWidth(100);
+        TableColumn<BabyForTraverse, String> gender = new TableColumn<>("Gender");
+        gender.setMinWidth(150);
         gender.setSortable(false);
         gender.setResizable(false);
         gender.setCellValueFactory(new PropertyValueFactory<>("gender"));
@@ -146,8 +144,8 @@ public class MainInterface extends Application {
 
 
         // column for the frequency
-        TableColumn<BabyForTable, Integer> frequency = new TableColumn<>("Frequency");
-        frequency.setMinWidth(100);
+        TableColumn<BabyForTraverse, Integer> frequency = new TableColumn<>("Frequency");
+        frequency.setMinWidth(150);
         frequency.setSortable(false);
         frequency.setResizable(false);
         frequency.setCellValueFactory(new PropertyValueFactory<>("frequency"));
@@ -164,28 +162,24 @@ public class MainInterface extends Application {
         if (!Utilities.BABYS_AVL_TREE.isEmpty()) {
             babysTableView.getItems().clear(); // clear data from table
             // get first node in the queue
-            Node<Babys> curr = Utilities.BABYS_AVL_TREE.LevelOrder().getFirst();
-
-            // temp node to display data to the table
-            Node<BabyForTable> tempBabyForTable;
+            Node<BabyForTraverse> current = Utilities.BABYS_AVL_TREE.traverseLevelOrder().getHead();
 
             // total frequency in the table
             int totalFrequency = 0;
 
-            while (curr != null) {
-                // create new node from current node to display it
-                tempBabyForTable = new Node<>(new BabyForTable(curr.getData().getName(),
-                        curr.getData().getGender(), curr.getData().getFrequency().getFrequency()));
-
+            while (current != null) {
                 // add tempNode to the table
-                babysTableView().getItems().add(tempBabyForTable.getData()); // upload data to the table
+                babysTableView.getItems().add(current.getData()); // upload data to the table
                 // increment totalFrequency
-                totalFrequency += curr.getData().getFrequency().getFrequency();
+                totalFrequency += current.getData().getFrequency();
 
-                curr = curr.getNext();
+                current = current.getNext();
             }
-            MainInterface.txtTotalFrequencyForTable.setText(totalFrequency + "");
+            System.gc();
+            txtTotalFrequencyForTable.setText(totalFrequency + "");
+            txtTotalRecord.setText(Utilities.BABYS_AVL_TREE.size() + "");
         } else {
+            txtTotalRecord.clear();
             txtTotalFrequencyForTable.clear();
             babysTableView().getItems().clear(); // clear data from table
         }
@@ -193,7 +187,32 @@ public class MainInterface extends Application {
     }
 
     public static VBox functions() {
+        btSearch = new Button("Search");
+        btSearch.setMinWidth(220);
+        btSearch.setMinHeight(40);
+        btSearch.setStyle(styleBt);
+        btSearch.setOnMouseEntered(e -> {
+            btSearch.setStyle(styleHoverBt);
+        });
+        btSearch.setOnMouseExited(e -> {
+            btSearch.setStyle(styleBt);
+        });
+
+        btUpload = new Button("Upload");
+        btUpload.setMinWidth(220);
+        btUpload.setMinHeight(40);
+        btUpload.setStyle(styleBt);
+        btUpload.setOnMouseEntered(e -> {
+            btUpload.setStyle(styleHoverBt);
+        });
+        btUpload.setOnMouseExited(e -> {
+            btUpload.setStyle(styleBt);
+        });
+
+
         btAverage = new Button("Average");
+        btAverage.setMinWidth(220);
+        btAverage.setMinHeight(40);
         btAverage.setStyle(styleBt);
         btAverage.setOnMouseEntered(e -> {
             btAverage.setStyle(styleHoverBt);
@@ -203,6 +222,8 @@ public class MainInterface extends Application {
         });
 
         btNameOfMaxFreq = new Button("Max Frequency");
+        btNameOfMaxFreq.setMinWidth(220);
+        btNameOfMaxFreq.setMinHeight(40);
         btNameOfMaxFreq.setStyle(styleBt);
         btNameOfMaxFreq.setOnMouseEntered(e -> {
             btNameOfMaxFreq.setStyle(styleHoverBt);
@@ -212,6 +233,8 @@ public class MainInterface extends Application {
         });
 
         btExport = new Button("Export");
+        btExport.setMinWidth(220);
+        btExport.setMinHeight(40);
         btExport.setStyle(styleBt);
         btExport.setOnMouseEntered(e -> {
             btExport.setStyle(styleHoverBt);
@@ -220,32 +243,106 @@ public class MainInterface extends Application {
             btExport.setStyle(styleBt);
         });
 
-        txtTotalFrequencyForTable = new TextField();
 
-        lblTotalFrequency = new Label("Total Frequency");
+        lblTotalFrequencyForFunctions = new Label("Frequencies");
+        lblTotalFrequencyForFunctions.setStyle("-fx-text-fill:#000000; -fx-background-color:#ffffff;" +
+                "-fx-font-weight: BOLd; -fx-font-size:15;");
+
         txtTotalFrequencyForFunctions = new TextField();
-
+        txtTotalFrequencyForFunctions.setEditable(false);
+        txtTotalFrequencyForFunctions.setMaxWidth(220);
+        txtTotalFrequencyForFunctions.setStyle("-fx-background-color:#ffffff; -fx-font-size:15;" +
+                " -fx-border-width: 0px0px2px0px; -fx-border-color: #000000;" +
+                " -fx-text-fill:#000000;  -fx-font-weight: BOLd;");
         years = new ComboBox<>();
+        years.setStyle("-fx-background-color: #ffffff; -fx-border-width: 0px0px2px0px; -fx-border-color:#000000;" +
+                "-fx-font-weight: BOLd;-fx-font-size:15;");
+        years.setMinWidth(220);
+        years.setMinHeight(0);
         years.setPromptText("Select the year:");
 
-        Node<Integer> current = Utilities.years.getHead();
-        while (current != null) {
-            years.getItems().add(current.getData());
-            current = current.getNext();
-        }
 
         HBox hBox = new HBox(5);
         hBox.setPadding(new Insets(5, 5, 5, 5));
         hBox.setStyle("-fx-background-color: #ffffff;");
-        hBox.getChildren().addAll(lblTotalFrequency, years);
+        hBox.getChildren().addAll(years);
 
-        VBox layout = new VBox(10);
+        VBox layout = new VBox(28.5);
         layout.setStyle("-fx-background-color: #ffffff;");
-        layout.setAlignment(Pos.CENTER);
+        layout.setAlignment(Pos.TOP_CENTER);
         layout.setPadding(new Insets(5, 5, 5, 5));
-        layout.getChildren().addAll(btAverage, btNameOfMaxFreq, btExport, hBox, txtTotalFrequencyForFunctions);
+        layout.setMargin(btUpload, new Insets(4, 0, 0, 0));
+        layout.getChildren().addAll(btUpload, btSearch, btAverage, btNameOfMaxFreq, btExport, hBox, txtTotalFrequencyForFunctions);
 
         return layout;
+
+    }
+
+    private static VBox centerComponents() {
+        VBox vBox = new VBox(10);
+        vBox.setStyle("-fx-background-color: #ffffff;");
+        vBox.setAlignment(Pos.CENTER);
+        vBox.setPadding(new Insets(5, 5, 5, 5));
+
+        txtTotalFrequencyForTable = new TextField();
+        txtTotalFrequencyForTable.setMaxWidth(125);
+        txtTotalFrequencyForTable.setEditable(false);
+        txtTotalFrequencyForTable.setStyle("-fx-background-color:#ffffff; -fx-font-size:15;" +
+                " -fx-border-width: 0px0px2px0px; -fx-border-color: #000000;" +
+                " -fx-text-fill:#000000;  -fx-font-weight: BOLd;");
+        lblTotalFrequencyForTable = new Label("Total Frequency");
+        lblTotalFrequencyForTable.setStyle("-fx-text-fill:#000000; -fx-background-color:#ffffff;" +
+                "-fx-font-weight: BOLd; -fx-font-size:15;");
+
+
+        txtTotalRecord = new TextField();
+        txtTotalRecord.setMaxWidth(125);
+        txtTotalRecord.setEditable(false);
+        txtTotalRecord.setStyle("-fx-background-color:#ffffff; -fx-font-size:15;" +
+                " -fx-border-width: 0px0px2px0px; -fx-border-color: #000000;" +
+                " -fx-text-fill:#000000;  -fx-font-weight: BOLd;");
+        lblTotalRecord = new Label("Total Recorde");
+        lblTotalRecord.setStyle("-fx-text-fill:#000000; -fx-background-color:#ffffff;" +
+                "-fx-font-weight: BOLd; -fx-font-size:15;");
+
+        VBox vBox1 = new VBox(5);
+        vBox1.setStyle("-fx-background-color: #ffffff;");
+        vBox1.setAlignment(Pos.CENTER);
+        vBox1.setPadding(new Insets(5, 5, 5, 5));
+        vBox1.setMargin(txtTotalFrequencyForTable, new Insets(0, 0, 15, 0));
+        vBox1.getChildren().addAll(lblTotalFrequencyForTable, txtTotalFrequencyForTable);
+
+        VBox vBox2 = new VBox(5);
+        vBox2.setStyle("-fx-background-color: #ffffff;");
+        vBox2.setAlignment(Pos.CENTER);
+        vBox2.setPadding(new Insets(5, 5, 5, 5));
+        vBox2.setMargin(txtTotalRecord, new Insets(0, 0, 15, 0));
+        vBox2.getChildren().addAll(lblTotalRecord, txtTotalRecord);
+
+        HBox hBox = new HBox(180);
+        hBox.setStyle("-fx-background-color: #ffffff;");
+        hBox.setAlignment(Pos.CENTER);
+        hBox.setPadding(new Insets(5, 5, 5, 5));
+        hBox.getChildren().addAll(vBox1, vBox2);
+
+        vBox.getChildren().addAll(babysTableView(), hBox);
+        return vBox;
+    }
+
+    private static BorderPane allComponents() {
+        BorderPane pane = new BorderPane();
+        pane.setStyle("-fx-background-color: #ffffff;");
+        pane.setPadding(new Insets(5, 5, 5, 5));
+        pane.setRight(functions());
+        pane.setLeft(centerComponents());
+        return pane;
+
+    }
+
+    private static void Actions() {
+        btUpload.setOnAction(e -> {
+            uploadFiles();
+        });
 
     }
 

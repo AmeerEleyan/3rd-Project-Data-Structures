@@ -5,7 +5,9 @@
  */
 package Lists;
 
+import Project.BabyForTraverse;
 import Project.Babys;
+import Project.Utilities;
 
 public class AVL_Tree<T extends Comparable<T>> {
     /**
@@ -202,9 +204,8 @@ public class AVL_Tree<T extends Comparable<T>> {
         if (data.compareTo(root.getDate()) == 0 && data instanceof Babys) {
             // add Frequency obj to linkedList that inside node
             root.insertToLinkedList(((Babys) data).getFrequency());
-         //   return;
-        }
-       else if (data.compareTo(root.getDate()) < 0) { // element less than current (add to left)
+            //   return;
+        } else if (data.compareTo(root.getDate()) < 0) { // element less than current (add to left)
             if (!root.hasLeft()) { // current does not have left child
                 TNode<T> tNode = new TNode<>(data);
                 root.setLeft(tNode);
@@ -330,21 +331,16 @@ public class AVL_Tree<T extends Comparable<T>> {
     /**
      * Display Tree level by level
      */
-    public void traverseLevelOrder() {
-        LinkedQueue<T> level = new LinkedQueue<>();
-        traverseLevelOrder(this.root, new LinkedQueue<>(), level);
-        System.out.println(level);
+    public LinkedList<BabyForTraverse> traverseLevelOrder() {
+        LinkedQueue<TNode<T>> linkedQueue = new LinkedQueue<>();
+        LinkedList<BabyForTraverse> babyForTraverseLinkedList = new LinkedList<>();
+        traverseLevelOrder(this.root, linkedQueue, babyForTraverseLinkedList);
+        return babyForTraverseLinkedList;
     }
 
-    /** Return this tree level by level using queue */
-     public LinkedQueue<T> LevelOrder(){
-         LinkedQueue<T> level = new LinkedQueue<>();
-         traverseLevelOrder(this.root, new LinkedQueue<>(), level);
-         return level;
-     }
 
     // traverse tree level by level using queue
-    private void traverseLevelOrder(TNode<T> rootOfTree, LinkedQueue<TNode<T>> tempQueue, LinkedQueue<T> level) {
+    private void traverseLevelOrder(TNode<T> rootOfTree, LinkedQueue<TNode<T>> tempQueue, LinkedList<BabyForTraverse> level) {
         // insert the  root of the tree
         if (rootOfTree != null) {
 
@@ -354,7 +350,11 @@ public class AVL_Tree<T extends Comparable<T>> {
                 TNode<T> tempNode = tempQueue.dequeue();
 
                 // insert first element that was stored to level queue
-                level.enqueue(tempNode.getDate());
+
+                int frequency = Utilities.totalFrequency(tempNode.getFrequencyLinkedList().getHead());
+                BabyForTraverse babyForTraverse = new BabyForTraverse(((Babys) tempNode.getDate()).getName(),
+                        ((Babys) tempNode.getDate()).getGender(), frequency);
+                level.insertAtLast(babyForTraverse);
 
                 // insert first.left to tempQueue
                 if (tempNode.getLeft() != null) {
@@ -366,6 +366,7 @@ public class AVL_Tree<T extends Comparable<T>> {
                     tempQueue.enqueue(tempNode.getRight());
                 }
             }
+            System.gc();
         }
     }
 }

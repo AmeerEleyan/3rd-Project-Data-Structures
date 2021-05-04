@@ -73,7 +73,7 @@ public final class Utilities {
     }
 
     //Q3
-    private static int totalFrequency(Node<Frequency> head) {
+    public static int totalFrequency(Node<Frequency> head) {
         Node<Frequency> current = head;
         int sum = 0;
         while (current != null) {
