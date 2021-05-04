@@ -35,7 +35,7 @@ public final class Utilities {
     }
 
     //Q3
-    public static Babys nameOfMaxFrequency() {
+    public static Babys nameOfMaxFrequency(Frequency frequency) {
         TNode<Babys> rootOfTree = BABYS_AVL_TREE.getRoot();
         LinkedQueue<TNode<Babys>> tempQueue = new LinkedQueue<>();
         int max = 0;
@@ -52,6 +52,7 @@ public final class Utilities {
                 if (tempMax > max) {
                     max = tempMax;
                     maxBaby = tempNode.getDate();
+                    frequency.setFrequency(tempMax);
                 }
 
                 // insert first.left to tempQueue
@@ -94,7 +95,7 @@ public final class Utilities {
                 // store first element in the queue and remove it
                 TNode<Babys> tempNode = tempQueue.dequeue();
 
-                int tempTotal = getYearFromLinkedList(tempNode.getFrequencyLinkedList(), year);
+                int tempTotal = getFrequencyInASelectedYearFromLinkedList(tempNode.getFrequencyLinkedList(), year);
                 if (tempTotal != -1)
                     totalBabys += tempTotal;
 
@@ -114,7 +115,7 @@ public final class Utilities {
     }
 
     //Q4
-    private static int getYearFromLinkedList(LinkedList<Frequency> frequencyLinkedList, int year) {
+    private static int getFrequencyInASelectedYearFromLinkedList(LinkedList<Frequency> frequencyLinkedList, int year) {
         Frequency searcherForYear = frequencyLinkedList.search(new Frequency(year));
         if (searcherForYear == null)
             return -1;

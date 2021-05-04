@@ -3,6 +3,7 @@ package GUI;
 import Lists.Node;
 import Project.BabyForTraverse;
 import Project.Babys;
+import Project.Frequency;
 import Project.Utilities;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -18,6 +19,8 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Scanner;
 
@@ -351,6 +354,45 @@ public class MainInterface extends Application {
         btSearch.setOnAction(e -> {
             Search.search();
         });
+
+        btExport.setOnAction(e -> {
+            traverseToFile();
+        });
+
+        btNameOfMaxFreq.setOnAction(e -> {
+            Frequency frequency = new Frequency();
+            Babys babys = Utilities.nameOfMaxFrequency(frequency);
+            if (babys == null) {
+                Message.displayMessage("Warning", " There are no data ");
+            } else {
+                Message.displayMessage("Result", "Information for maximum frequency all over the years is:"
+                        + "\nName: " + babys.getName() + "\nGender: " + babys.getGender() + "\nFrequency: " + frequency.getFrequency());
+            }
+        });
+
+        years.setOnAction(e -> {
+            int year = Utilities.totalNumberOfBabysInSelectedYear(years.getValue());
+            if (year == -1)
+                Message.displayMessage("Warning", " There are no data ");
+            else {
+                txtTotalFrequencyForFunctions.setText("Total frequency: " + year);
+            }
+        });
+    }
+
+    /**
+     * To print queue to the file(update)
+     */
+    public static void traverseToFile() {
+        try {
+            File file = new File("Babys.csv");
+            PrintWriter writer = new PrintWriter(file);
+            writer.println(Utilities.BABYS_AVL_TREE.traverseLevelOrder().toString());
+            writer.close();
+            Message.displayMessage("Successfully", " Successfully exported to the file ");
+        } catch (IOException exception) {
+            Message.displayMessage("Warning", exception.getMessage());
+        }
     }
 
 

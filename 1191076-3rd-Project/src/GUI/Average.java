@@ -107,30 +107,27 @@ public class Average {
         btCalculate.setOnAction(e -> {
             if (!txtName.getText().isEmpty()) {
 
-                if (male.isSelected() || female.isSelected()) {
+                if (Utilities.isName(txtName.getText().trim())) {
 
-                    if (Utilities.isName(txtName.getText().trim())) {
+                    if (male.isSelected() || female.isSelected()) {
                         char gender;
                         if (male.isSelected()) gender = 'M';
                         else gender = 'F';
                         float avg = Utilities.averageFrequency(new Babys(txtName.getText().trim(), gender));
                         if (avg != -1) {
                             txtAverage.setText(String.format("%.2f", avg));
-                            txtName.clear();
                         } else {
                             Message.displayMessage("Warning", txtName.getText() + " Does Not exist ");
                             txtName.clear();
                             txtAverage.clear();
                         }
-                        male.setSelected(false);
-                        female.setSelected(false);
 
                     } else {
-                        Message.displayMessage("Warning", " The name is invalid ");
-                        txtName.clear();
+                        Message.displayMessage("Warning", " Please select the gender ");
                     }
                 } else {
-                    Message.displayMessage("Warning", " Please select the gender ");
+                    Message.displayMessage("Warning", " The name is invalid ");
+                    txtName.clear();
                 }
 
             } else {
