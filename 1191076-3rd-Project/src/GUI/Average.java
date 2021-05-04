@@ -61,11 +61,11 @@ public class Average {
 
         male = new RadioButton("Male");
         male.setStyle("-fx-background-color: #ffffff;" + "-fx-border-radius: 10px;" +
-                "-fx-padding: 2px; -fx-font-size:14; -fx-font-weight: BOLd;");
+                " -fx-font-size:14; -fx-font-weight: BOLd;");
 
         female = new RadioButton("Female");
         female.setStyle("-fx-background-color: #ffffff;" + "-fx-border-radius: 10px;" +
-                "-fx-padding: 2px; -fx-font-size:14; -fx-font-weight: BOLd;");
+                " -fx-font-size:14; -fx-font-weight: BOLd;");
 
 
         // set the radio button as group
@@ -75,10 +75,10 @@ public class Average {
 
 
         // HBox for radioButton
-        HBox paneRadio = new HBox(40);
+        HBox paneRadio = new HBox(55);
         paneRadio.getChildren().addAll(male, female);
         paneRadio.setAlignment(Pos.TOP_CENTER);
-        paneRadio.setPadding(new Insets(5, 5, 5, 5));
+        paneRadio.setPadding(new Insets(5, 5, 5, 0));
         paneRadio.setStyle("-fx-background-color: #ffffff");
 
         lblAverage = new Label("Average  ");

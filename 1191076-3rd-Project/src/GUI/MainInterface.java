@@ -26,7 +26,7 @@ public class MainInterface extends Application {
     private static Stage window;
     private static TableView<BabyForTraverse> babysTableView;
     private static TextField txtTotalFrequencyForTable, txtTotalFrequencyForFunctions, txtTotalRecord;
-    private static Button btAverage, btNameOfMaxFreq, btExport, btUpload, btSearch;
+    private static Button btAverage, btNameOfMaxFreq, btExport, btBrowse, btSearch;
     private static Label lblTotalFrequencyForTable, lblTotalFrequencyForFunctions, lblTotalRecord;
     private static ComboBox<Integer> years;
 
@@ -198,15 +198,15 @@ public class MainInterface extends Application {
             btSearch.setStyle(styleBt);
         });
 
-        btUpload = new Button("Upload");
-        btUpload.setMinWidth(220);
-        btUpload.setMinHeight(40);
-        btUpload.setStyle(styleBt);
-        btUpload.setOnMouseEntered(e -> {
-            btUpload.setStyle(styleHoverBt);
+        btBrowse = new Button("Browse...");
+        btBrowse.setMinWidth(220);
+        btBrowse.setMinHeight(40);
+        btBrowse.setStyle(styleBt);
+        btBrowse.setOnMouseEntered(e -> {
+            btBrowse.setStyle(styleHoverBt);
         });
-        btUpload.setOnMouseExited(e -> {
-            btUpload.setStyle(styleBt);
+        btBrowse.setOnMouseExited(e -> {
+            btBrowse.setStyle(styleBt);
         });
 
 
@@ -271,8 +271,8 @@ public class MainInterface extends Application {
         layout.setStyle("-fx-background-color: #ffffff;");
         layout.setAlignment(Pos.TOP_CENTER);
         layout.setPadding(new Insets(5, 5, 5, 5));
-        layout.setMargin(btUpload, new Insets(4, 0, 0, 0));
-        layout.getChildren().addAll(btUpload, btSearch, btAverage, btNameOfMaxFreq, btExport, hBox, txtTotalFrequencyForFunctions);
+        layout.setMargin(btBrowse, new Insets(4, 0, 0, 0));
+        layout.getChildren().addAll(btBrowse, btSearch, btAverage, btNameOfMaxFreq, btExport, hBox, txtTotalFrequencyForFunctions);
 
         return layout;
 
@@ -340,12 +340,16 @@ public class MainInterface extends Application {
     }
 
     private static void Actions() {
-        btUpload.setOnAction(e -> {
+        btBrowse.setOnAction(e -> {
             uploadFiles();
         });
 
         btAverage.setOnAction(e -> {
             Average.displayAverage();
+        });
+
+        btSearch.setOnAction(e -> {
+            Search.search();
         });
     }
 
