@@ -17,9 +17,6 @@ public final class Utilities {
     public static LinkedList<Frequency> searchForBabys(Babys data) {
         TNode<Babys> searcherForBaby = BABYS_AVL_TREE.search(data);
         if (searcherForBaby != null) {
-            System.out.println(searcherForBaby.getDate() + "\n");
-            // returnBaby = ;
-            System.out.println(searcherForBaby.getFrequencyLinkedList());
             return searcherForBaby.getFrequencyLinkedList();
         } else {
             return null;
@@ -140,5 +137,12 @@ public final class Utilities {
         }
         if (count == 0) return 0;
         return Integer.parseInt(year.trim());
+    }
+
+    /**
+     * To check the value of the entered company name that if contain only char ot not
+     */
+    public static boolean isName(String companyN) {
+        return companyN.matches("[a-zA-Z]+");
     }
 }

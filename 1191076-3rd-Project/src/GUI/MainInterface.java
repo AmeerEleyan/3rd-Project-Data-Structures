@@ -344,6 +344,9 @@ public class MainInterface extends Application {
             uploadFiles();
         });
 
+        btAverage.setOnAction(e -> {
+            Average.displayAverage();
+        });
     }
 
 
