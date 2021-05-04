@@ -3,7 +3,7 @@
  * ID: 1191076
  * At: 2/5/2021  5:04 PM
  */
-package project3;
+package Project;
 
 public class Frequency implements Comparable<Frequency> {
     /**

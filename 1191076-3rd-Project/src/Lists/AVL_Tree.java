@@ -5,7 +5,7 @@
  */
 package Lists;
 
-import project3.Babys;
+import Project.Babys;
 
 public class AVL_Tree<T extends Comparable<T>> {
     /**
@@ -331,11 +331,17 @@ public class AVL_Tree<T extends Comparable<T>> {
      * Display Tree level by level
      */
     public void traverseLevelOrder() {
-        LinkedQueue<TNode<T>> linkedQueue = new LinkedQueue<>();
         LinkedQueue<T> level = new LinkedQueue<>();
-        traverseLevelOrder(this.root, linkedQueue, level);
+        traverseLevelOrder(this.root, new LinkedQueue<>(), level);
         System.out.println(level);
     }
+
+    /** Return this tree level by level using queue */
+     public LinkedQueue<T> LevelOrder(){
+         LinkedQueue<T> level = new LinkedQueue<>();
+         traverseLevelOrder(this.root, new LinkedQueue<>(), level);
+         return level;
+     }
 
     // traverse tree level by level using queue
     private void traverseLevelOrder(TNode<T> rootOfTree, LinkedQueue<TNode<T>> tempQueue, LinkedQueue<T> level) {

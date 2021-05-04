@@ -5,7 +5,7 @@
  */
 package Lists;
 
-import project3.Frequency;
+import Project.Frequency;
 
 public class TNode<T extends Comparable<T>> implements Comparable<TNode<T>> {
 

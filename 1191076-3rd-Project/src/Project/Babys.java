@@ -1,4 +1,4 @@
-package project3;
+package Project;
 
 public class Babys implements Comparable<Babys> {
 
@@ -27,6 +27,12 @@ public class Babys implements Comparable<Babys> {
         this.name = name;
         this.gender = Character.toUpperCase(gender);
     }
+
+    // constructor with a specific data
+    public Babys(String name) {
+        this.name = name;
+    }
+
 
 
     // constructor with line of data

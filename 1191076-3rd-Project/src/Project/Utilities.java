@@ -1,4 +1,4 @@
-package project3;
+package Project;
 
 import Lists.*;
 
@@ -6,7 +6,7 @@ public final class Utilities {
 
     // Attribute
     // AVL tree of babys
-    private final static AVL_Tree<Babys> BABYS_AVL_TREE = new AVL_Tree<>();
+    public final static AVL_Tree<Babys> BABYS_AVL_TREE = new AVL_Tree<>();
     public static LinkedList<Integer> years = new LinkedList<>();
 
     private Utilities() {
@@ -25,6 +25,16 @@ public final class Utilities {
             return null;
         }
 
+    }
+
+    //Q2
+    public static float averageFrequency(Babys data) {
+        TNode<Babys> searcherForBaby = BABYS_AVL_TREE.search(data);
+        if (searcherForBaby != null) {
+            int length = searcherForBaby.getFrequencyLinkedList().length();
+            return totalFrequency(searcherForBaby.getFrequencyLinkedList().getHead()) / (float) length;
+        }
+        return -1;
     }
 
     //Q3
@@ -103,7 +113,7 @@ public final class Utilities {
             }
             return totalBabys;
         }
-        return 0;
+        return -1;
     }
 
     //Q4
