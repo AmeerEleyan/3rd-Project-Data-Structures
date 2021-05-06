@@ -1,3 +1,8 @@
+/**
+ * @autor: Amir Eleyan
+ * ID: 1191076
+ * At: 6/5/2021  5:02 AM
+ */
 package Project;
 
 public class Babys implements Comparable<Babys> {
@@ -32,7 +37,6 @@ public class Babys implements Comparable<Babys> {
     public Babys(String name) {
         this.name = name;
     }
-
 
 
     // constructor with line of data
@@ -99,9 +103,7 @@ public class Babys implements Comparable<Babys> {
     @Override
     public int compareTo(Babys o) {
         int compareName = this.name.compareTo(o.name);
-        int thisGender = this.gender;
-        int objGender = o.gender;
-        if (compareName == 0) return Integer.compare(thisGender, objGender);
+        if (compareName == 0) return Character.compare(this.gender, o.gender);
         else return compareName;
 
     }

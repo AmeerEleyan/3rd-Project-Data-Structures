@@ -27,13 +27,12 @@ public abstract class Message {
         window.setMinWidth(250);
 
         // Style for buttons
-        String styleBt = "-fx-background-color: #ffffff;" +
-                "-fx-border-width: 1; -fx-border-color: #000000;-fx-font-size:18;" +
-                "-fx-text-fill: #000000; -fx-font-family: 'Times New Roman'; ";
+        String styleBt = "-fx-background-color:  #1aff1a; -fx-background-radius:35;" + "-fx-font-size:18;-fx-border-width: 1.5; -fx-border-color: #000000;" +
+                "-fx-text-fill: #000000; -fx-font-family: 'Times New Roman'; -fx-border-radius: 35; ";
 
         // Style for hover buttons
-        String styleHoverBt = "-fx-background-color: #000000; " + "-fx-font-size:18;" +
-                "-fx-border-width: 1; -fx-border-color: #000000;-fx-text-fill: #ffffff; -fx-font-family: 'Times New Roman'; ";
+        String styleHoverBt = "-fx-background-color: #ffffff;-fx-background-radius:35; " + "-fx-font-size:18;-fx-border-width: 1.5; -fx-border-color: #000000;" +
+                "-fx-text-fill:  #000000; -fx-font-family: 'Times New Roman';-fx-border-radius: 35; ";
 
 
         // label for display massage
@@ -69,7 +68,7 @@ public abstract class Message {
         closeButton.setOnAction(e -> window.close());
 
         // VBox
-        VBox vBox = new VBox(12);
+        VBox vBox = new VBox(14);
         vBox.getChildren().addAll(hBox, closeButton);
         vBox.setAlignment(Pos.CENTER);
         vBox.setStyle("-fx-background-color: #ffffff;");

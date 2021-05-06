@@ -1,3 +1,8 @@
+/**
+ * @autor: Amir Eleyan
+ * ID: 1191076
+ * At: 6/5/2021  12:27 AM
+ */
 package GUI;
 
 import Lists.LinkedList;
@@ -17,32 +22,35 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class Search {
+public final class Search {
     private static Button btSearch, btClose;
     private static TextField txtName, txtTotalFrequencyForTable;
     private static Label lblName, lblGender, lblTotalFrequencyForTable;
     private static RadioButton male, female;
     private static TableView<Frequency> frequencyTableView;
 
+    private Search() {
+    }
+
     public static void search() {
         // style for labels
         String styleLbl = "-fx-text-fill:#000000; -fx-background-color:#ffffff;-fx-font-weight: BOLd; -fx-font-size:15; ";
 
         //style for textFields
-        String styleTxt = "-fx-background-color: #ffffff; -fx-border-width: 1px1px1px1px;" +
-                " -fx-border-color: #000000; -fx-font-size:16; -fx-text-fill: #000000;";
+        String styleTxt = "-fx-background-color: #1aff1a; -fx-background-radius:35; -fx-font-size:15;" +
+                " -fx-border-radius: 35;" + " -fx-text-fill:#000000;  -fx-font-weight: BOLd;";
 
         // Style for buttons
-        String styleBt = "-fx-background-color: #ffffff;" + "-fx-font-size:18;-fx-border-width: 1; -fx-border-color: #000000;" +
-                "-fx-text-fill: #000000; -fx-font-family: 'Times New Roman'; ";
+        String styleBt = "-fx-background-color:  #1aff1a; -fx-background-radius:35;" + "-fx-font-size:18;-fx-border-width: 1.5; -fx-border-color: #000000;" +
+                "-fx-text-fill: #000000; -fx-font-family: 'Times New Roman'; -fx-border-radius: 35; ";
 
         // Style for hover buttons
-        String styleHoverBt = "-fx-background-color: #000000; " + "-fx-font-size:18;-fx-border-width: 1; -fx-border-color: #000000;" +
-                "-fx-text-fill: #ffffff; -fx-font-family: 'Times New Roman'; ";
+        String styleHoverBt = "-fx-background-color: #ffffff;-fx-background-radius:35; " + "-fx-font-size:18;-fx-border-width: 1.5; -fx-border-color: #000000;" +
+                "-fx-text-fill:  #000000; -fx-font-family: 'Times New Roman';-fx-border-radius: 35; ";
 
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
-        window.setTitle("Average Frequencies of a Name");
+        window.setTitle("Search");
 
         // gridPane for arrange labels and testFields
         GridPane pane = new GridPane();
@@ -93,28 +101,33 @@ public class Search {
         btClose.setOnMouseExited(e -> btClose.setStyle(styleBt));
         btClose.setOnAction(e -> window.close());
 
+        //Button for search
         btSearch = new Button("Search");
         btSearch.setMinWidth(80);
         btSearch.setStyle(styleBt);
         btSearch.setOnMouseEntered(e -> btSearch.setStyle(styleHoverBt));
         btSearch.setOnMouseExited(e -> btSearch.setStyle(styleBt));
 
+        // Actions on the search button
         btSearch.setOnAction(e -> {
-            if (!txtName.getText().isEmpty()) {
+            if (!txtName.getText().isEmpty()) { // check status  of the text filed if fill ot not
 
-                if (Utilities.isName(txtName.getText().trim())) {
+                if (Utilities.isName(txtName.getText().trim())) { // check the name is valid or not
 
-                    if (male.isSelected() || female.isSelected()) {
+                    if (male.isSelected() || female.isSelected()) { // check which gender
                         char gender;
                         if (male.isSelected()) gender = 'M';
                         else gender = 'F';
+                        // get the baby info is exist
                         LinkedList<Frequency> frequencyLinkedList = Utilities.searchForBabys(new Babys(txtName.getText().trim(), gender));
-                        if (frequencyLinkedList == null) {
+
+                        if (frequencyLinkedList == null) { // baby does not exist
                             Message.displayMessage("Warning", txtName.getText() + " Does Not exist ");
                             txtName.clear();
                             male.setSelected(false);
                             female.setSelected(false);
                         } else {
+                            // baby exist and display total frequency over all years
                             updateTable(frequencyLinkedList);
                         }
 
@@ -201,7 +214,7 @@ public class Search {
     }
 
     /**
-     * to view data in table view
+     * to view and update data in table view
      */
     public static void updateTable(LinkedList<Frequency> frequencyLinkedList) {
 
@@ -230,6 +243,7 @@ public class Search {
 
     }
 
+    // table view and textFiled for totalFrequency
     private static VBox table() {
 
         txtTotalFrequencyForTable = new TextField();
@@ -246,7 +260,7 @@ public class Search {
         hBox1.setStyle("-fx-background-color: #ffffff;");
         hBox1.setAlignment(Pos.CENTER_LEFT);
         hBox1.setPadding(new Insets(5, 5, 5, 5));
-        hBox1.setMargin(txtTotalFrequencyForTable, new Insets(0, 0, 10, 0));
+        hBox1.setMargin(txtTotalFrequencyForTable, new Insets(0, 0, 12, 0));
         hBox1.getChildren().addAll(lblTotalFrequencyForTable, txtTotalFrequencyForTable);
 
         VBox layout = new VBox(15);

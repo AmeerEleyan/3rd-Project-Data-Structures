@@ -1,3 +1,8 @@
+/**
+ * @autor: Amir Eleyan
+ * ID: 1191076
+ * At: 6/5/2021  3:34 AM
+ */
 package GUI;
 
 import Project.Babys;
@@ -12,12 +17,16 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class Average {
+public final class Average {
 
     private static Button btCalculate, btClose;
     private static TextField txtName, txtAverage;
     private static Label lblName, lblGender, lblAverage;
     private static RadioButton male, female;
+
+    private Average() {
+
+    }
 
     public static void displayAverage() {
 
@@ -25,16 +34,16 @@ public class Average {
         String styleLbl = "-fx-text-fill:#000000; -fx-background-color:#ffffff;-fx-font-weight: BOLd; -fx-font-size:15; ";
 
         //style for textFields
-        String styleTxt = "-fx-background-color: #ffffff; -fx-border-width: 1px1px1px1px;" +
-                " -fx-border-color: #000000; -fx-font-size:16; -fx-text-fill: #000000;";
+        String styleTxt = "-fx-background-color: #1aff1a; -fx-background-radius:35; -fx-font-size:15;" +
+                " -fx-border-radius: 35;" + " -fx-text-fill:#000000;  -fx-font-weight: BOLd;";
 
         // Style for buttons
-        String styleBt = "-fx-background-color: #ffffff;" + "-fx-font-size:18;-fx-border-width: 1; -fx-border-color: #000000;" +
-                "-fx-text-fill: #000000; -fx-font-family: 'Times New Roman'; ";
+        String styleBt = "-fx-background-color:  #1aff1a; -fx-background-radius:35;" + "-fx-font-size:18;-fx-border-width: 1.5; -fx-border-color: #000000;" +
+                "-fx-text-fill: #000000; -fx-font-family: 'Times New Roman'; -fx-border-radius: 35; ";
 
         // Style for hover buttons
-        String styleHoverBt = "-fx-background-color: #000000; " + "-fx-font-size:18;-fx-border-width: 1; -fx-border-color: #000000;" +
-                "-fx-text-fill: #ffffff; -fx-font-family: 'Times New Roman'; ";
+        String styleHoverBt = "-fx-background-color: #ffffff;-fx-background-radius:35; " + "-fx-font-size:18;-fx-border-width: 1.5; -fx-border-color: #000000;" +
+                "-fx-text-fill:  #000000; -fx-font-family: 'Times New Roman';-fx-border-radius: 35; ";
 
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
@@ -79,7 +88,7 @@ public class Average {
         paneRadio.getChildren().addAll(male, female);
         paneRadio.setAlignment(Pos.TOP_CENTER);
         paneRadio.setPadding(new Insets(5, 5, 5, 0));
-        paneRadio.setStyle("-fx-background-color: #ffffff");
+        paneRadio.setStyle("-fx-background-color: #ffffff;");
 
         lblAverage = new Label("Average  ");
         lblAverage.setStyle(styleLbl);
@@ -98,25 +107,27 @@ public class Average {
         btClose.setOnMouseExited(e -> btClose.setStyle(styleBt));
         btClose.setOnAction(e -> window.close());
 
+        //button for calculate average
         btCalculate = new Button("Calculate");
         btCalculate.setMinWidth(80);
         btCalculate.setStyle(styleBt);
         btCalculate.setOnMouseEntered(e -> btCalculate.setStyle(styleHoverBt));
         btCalculate.setOnMouseExited(e -> btCalculate.setStyle(styleBt));
 
+        // Actions on the button calculate
         btCalculate.setOnAction(e -> {
-            if (!txtName.getText().isEmpty()) {
+            if (!txtName.getText().isEmpty()) { // check status  of the text filed if fill ot not
 
-                if (Utilities.isName(txtName.getText().trim())) {
+                if (Utilities.isName(txtName.getText().trim())) {// check the name is valid or not
 
-                    if (male.isSelected() || female.isSelected()) {
+                    if (male.isSelected() || female.isSelected()) {// check which gender
                         char gender;
                         if (male.isSelected()) gender = 'M';
                         else gender = 'F';
                         float avg = Utilities.averageFrequency(new Babys(txtName.getText().trim(), gender));
-                        if (avg != -1) {
+                        if (avg != -1) { // baby is exist
                             txtAverage.setText(String.format("%.2f", avg));
-                        } else {
+                        } else { // baby does not exit
                             Message.displayMessage("Warning", txtName.getText() + " Does Not exist ");
                             txtName.clear();
                             txtAverage.clear();

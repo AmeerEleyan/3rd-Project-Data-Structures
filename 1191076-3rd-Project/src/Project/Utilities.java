@@ -1,3 +1,8 @@
+/**
+ * @autor: Amir Eleyan
+ * ID: 1191076
+ * At: 5/5/2021 2:10 AM
+ */
 package Project;
 
 import Lists.*;
@@ -13,28 +18,27 @@ public final class Utilities {
     }
 
 
-    //Q1
+    // Search for a specific node and return his linkedList
     public static LinkedList<Frequency> searchForBabys(Babys data) {
         TNode<Babys> searcherForBaby = BABYS_AVL_TREE.search(data);
         if (searcherForBaby != null) {
             return searcherForBaby.getFrequencyLinkedList();
-        } else {
+        } else { // node not found
             return null;
         }
-
     }
 
-    //Q2
+    // get average frequency for a specific node
     public static float averageFrequency(Babys data) {
         TNode<Babys> searcherForBaby = BABYS_AVL_TREE.search(data);
         if (searcherForBaby != null) {
             int length = searcherForBaby.getFrequencyLinkedList().length();
             return totalFrequency(searcherForBaby.getFrequencyLinkedList().getHead()) / (float) length;
         }
-        return -1;
+        return -1; // not found
     }
 
-    //Q3
+    //  return info for tha baby hsa max frequency over all years
     public static Babys nameOfMaxFrequency(Frequency frequency) {
         TNode<Babys> rootOfTree = BABYS_AVL_TREE.getRoot();
         LinkedQueue<TNode<Babys>> tempQueue = new LinkedQueue<>();
@@ -48,8 +52,9 @@ public final class Utilities {
                 // store first element in the queue and remove it
                 TNode<Babys> tempNode = tempQueue.dequeue();
 
-                int tempMax = totalFrequency(tempNode.getFrequencyLinkedList().getHead());
-                if (tempMax > max) {
+                int tempMax = totalFrequency(tempNode.getFrequencyLinkedList().getHead()); // get total frequency for current node
+
+                if (tempMax > max) { // get the max
                     max = tempMax;
                     maxBaby = tempNode.getDate();
                     frequency.setFrequency(tempMax);
@@ -65,12 +70,13 @@ public final class Utilities {
                     tempQueue.enqueue(tempNode.getRight());
                 }
             }
+            System.gc();
             return maxBaby;
         }
-        return null;
+        return null; // no data in the tree
     }
 
-    //Q3
+    // return total frequency for a specific node
     public static int totalFrequency(Node<Frequency> head) {
         Node<Frequency> current = head;
         int sum = 0;
@@ -78,11 +84,12 @@ public final class Utilities {
             sum += current.getData().getFrequency();
             current = current.getNext();
         }
+        System.gc();
         return sum;
     }
 
 
-    //Q4
+    // get total number of babys in a selected year
     public static int totalNumberOfBabysInSelectedYear(int year) {
         TNode<Babys> rootOfTree = BABYS_AVL_TREE.getRoot();
         LinkedQueue<TNode<Babys>> tempQueue = new LinkedQueue<>();
@@ -95,6 +102,7 @@ public final class Utilities {
                 // store first element in the queue and remove it
                 TNode<Babys> tempNode = tempQueue.dequeue();
 
+                // get frequency for current node in a selected year
                 int tempTotal = getFrequencyInASelectedYearFromLinkedList(tempNode.getFrequencyLinkedList(), year);
                 if (tempTotal != -1)
                     totalBabys += tempTotal;
@@ -109,21 +117,22 @@ public final class Utilities {
                     tempQueue.enqueue(tempNode.getRight());
                 }
             }
+            System.gc();
             return totalBabys;
         }
         return -1;
     }
 
-    //Q4
+    //get frequency in a selected year in the linkedList
     private static int getFrequencyInASelectedYearFromLinkedList(LinkedList<Frequency> frequencyLinkedList, int year) {
         Frequency searcherForYear = frequencyLinkedList.search(new Frequency(year));
-        if (searcherForYear == null)
+        if (searcherForYear == null) // year not found
             return -1;
         return searcherForYear.getFrequency();
     }
 
 
-    //Q5
+    // get year from file name
     public static int getYearFromFileName(String fileName) {
         int count = 0;
         String year = "";
@@ -136,6 +145,7 @@ public final class Utilities {
                 count = 0;
             }
         }
+        System.gc();
         if (count == 0) return 0;
         return Integer.parseInt(year.trim());
     }

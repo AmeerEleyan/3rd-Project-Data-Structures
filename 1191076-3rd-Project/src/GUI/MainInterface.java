@@ -31,15 +31,15 @@ public class MainInterface extends Application {
     private static TextField txtTotalFrequencyForTable, txtTotalFrequencyForFunctions, txtTotalRecord;
     private static Button btAverage, btNameOfMaxFreq, btExport, btBrowse, btSearch;
     private static Label lblTotalFrequencyForTable, lblTotalFrequencyForFunctions, lblTotalRecord;
-    private static ComboBox<Integer> years;
+    private static ComboBox<Integer> cbxYears;
 
     // Style for buttons
-    static String styleBt = "-fx-background-color: #ffffff;" + "-fx-font-size:18;-fx-border-width: 1.5; -fx-border-color: #000000;" +
-            "-fx-text-fill: #000000; -fx-font-family: 'Times New Roman'; ";
+    private static String styleBt = "-fx-background-color:  #1aff1a; -fx-background-radius:35;" + "-fx-font-size:18;-fx-border-width: 1.5; -fx-border-color: #000000;" +
+            "-fx-text-fill: #000000; -fx-font-family: 'Times New Roman'; -fx-border-radius: 35; ";
 
     // Style for hover buttons
-    static String styleHoverBt = "-fx-background-color: #000000; " + "-fx-font-size:18;-fx-border-width: 1.5; -fx-border-color: #000000;" +
-            "-fx-text-fill: #ffffff; -fx-font-family: 'Times New Roman'; ";
+    private static String styleHoverBt = "-fx-background-color: #ffffff;-fx-background-radius:35; " + "-fx-font-size:18;-fx-border-width: 1.5; -fx-border-color: #000000;" +
+            "-fx-text-fill:  #000000; -fx-font-family: 'Times New Roman';-fx-border-radius: 35; ";
 
     @Override
     public void start(Stage stage) {
@@ -70,10 +70,10 @@ public class MainInterface extends Application {
                     Message.displayMessage("Warning", "The year is not defined in file " + file.getName());
             }
             updateTable();
-            years.getItems().clear();
+            cbxYears.getItems().clear();
             Node<Integer> current = Utilities.years.getHead();
             while (current != null) {
-                years.getItems().add(current.getData());
+                cbxYears.getItems().add(current.getData());
                 current = current.getNext();
             }
         }
@@ -88,7 +88,7 @@ public class MainInterface extends Application {
             Scanner input = new Scanner(fileName); // instance of scanner for read data from file
             if (fileName.length() == 0) {
                 // no data in file
-                Message.displayMessage("Warning", "  There are No records in file " + fileName + " ");
+                Message.displayMessage("Warning", "  There are No records in the file " + fileName + " ");
             } else {
                 int line = 1; // represent line on the file to display in which line has problem If that happens
 
@@ -248,27 +248,28 @@ public class MainInterface extends Application {
 
 
         lblTotalFrequencyForFunctions = new Label("Frequencies");
-        lblTotalFrequencyForFunctions.setStyle("-fx-text-fill:#000000; -fx-background-color:#ffffff;" +
+        lblTotalFrequencyForFunctions.setStyle("-fx-text-fill:#000000; -fx-background-color: #1aff1a;" +
                 "-fx-font-weight: BOLd; -fx-font-size:15;");
 
         txtTotalFrequencyForFunctions = new TextField();
         txtTotalFrequencyForFunctions.setEditable(false);
+        txtTotalFrequencyForFunctions.setVisible(false);
         txtTotalFrequencyForFunctions.setMaxWidth(220);
-        txtTotalFrequencyForFunctions.setStyle("-fx-background-color:#ffffff; -fx-font-size:15;" +
-                " -fx-border-width: 0px0px2px0px; -fx-border-color: #000000;" +
+        txtTotalFrequencyForFunctions.setStyle("-fx-background-color: #1aff1a; -fx-font-size:15;" +
+                "-fx-background-radius:35;-fx-border-radius: 35;" +
                 " -fx-text-fill:#000000;  -fx-font-weight: BOLd;");
-        years = new ComboBox<>();
-        years.setStyle("-fx-background-color: #ffffff; -fx-border-width: 0px0px2px0px; -fx-border-color:#000000;" +
-                "-fx-font-weight: BOLd;-fx-font-size:15;");
-        years.setMinWidth(220);
-        years.setMinHeight(0);
-        years.setPromptText("Select the year:");
+        cbxYears = new ComboBox<>();
+        cbxYears.setStyle("-fx-background-color:  #1aff1a;" + "-fx-font-weight: BOLd;-fx-font-size:15;" +
+                "-fx-background-radius:35;-fx-border-radius: 35;");
+        cbxYears.setMinWidth(220);
+        cbxYears.setMinHeight(0);
+        cbxYears.setPromptText("Select the year:");
 
 
         HBox hBox = new HBox(5);
         hBox.setPadding(new Insets(5, 5, 5, 5));
         hBox.setStyle("-fx-background-color: #ffffff;");
-        hBox.getChildren().addAll(years);
+        hBox.getChildren().addAll(cbxYears);
 
         VBox layout = new VBox(28.5);
         layout.setStyle("-fx-background-color: #ffffff;");
@@ -290,20 +291,18 @@ public class MainInterface extends Application {
         txtTotalFrequencyForTable = new TextField();
         txtTotalFrequencyForTable.setMaxWidth(125);
         txtTotalFrequencyForTable.setEditable(false);
-        txtTotalFrequencyForTable.setStyle("-fx-background-color:#ffffff; -fx-font-size:15;" +
-                " -fx-border-width: 0px0px2px0px; -fx-border-color: #000000;" +
-                " -fx-text-fill:#000000;  -fx-font-weight: BOLd;");
+        txtTotalFrequencyForTable.setStyle("-fx-background-color: #1aff1a; -fx-background-radius:35; -fx-font-size:15;" +
+                " -fx-border-radius: 35;" + " -fx-text-fill:#000000;  -fx-font-weight: BOLd;");
         lblTotalFrequencyForTable = new Label("Total Frequency");
-        lblTotalFrequencyForTable.setStyle("-fx-text-fill:#000000; -fx-background-color:#ffffff;" +
+        lblTotalFrequencyForTable.setStyle("-fx-text-fill:#000000; -fx-background-color: #ffffff;" +
                 "-fx-font-weight: BOLd; -fx-font-size:15;");
 
 
         txtTotalRecord = new TextField();
         txtTotalRecord.setMaxWidth(125);
         txtTotalRecord.setEditable(false);
-        txtTotalRecord.setStyle("-fx-background-color:#ffffff; -fx-font-size:15;" +
-                " -fx-border-width: 0px0px2px0px; -fx-border-color: #000000;" +
-                " -fx-text-fill:#000000;  -fx-font-weight: BOLd;");
+        txtTotalRecord.setStyle("-fx-background-color: #1aff1a; -fx-background-radius:35; -fx-font-size:15;" +
+                " -fx-border-radius: 35;" + " -fx-text-fill:#000000;  -fx-font-weight: BOLd;");
         lblTotalRecord = new Label("Total Recorde");
         lblTotalRecord.setStyle("-fx-text-fill:#000000; -fx-background-color:#ffffff;" +
                 "-fx-font-weight: BOLd; -fx-font-size:15;");
@@ -343,23 +342,39 @@ public class MainInterface extends Application {
     }
 
     private static void Actions() {
+
+        // Actions for browse button
         btBrowse.setOnAction(e -> {
+            txtTotalFrequencyForFunctions.setVisible(false);
+            txtTotalFrequencyForFunctions.clear();
             uploadFiles();
         });
 
+        // Actions for Average button
         btAverage.setOnAction(e -> {
+            txtTotalFrequencyForFunctions.setVisible(false);
+            txtTotalFrequencyForFunctions.clear();
             Average.displayAverage();
         });
 
+        // Actions for Search button
         btSearch.setOnAction(e -> {
+            txtTotalFrequencyForFunctions.setVisible(false);
+            txtTotalFrequencyForFunctions.clear();
             Search.search();
         });
 
+        // Actions for Export button
         btExport.setOnAction(e -> {
+            txtTotalFrequencyForFunctions.setVisible(false);
+            txtTotalFrequencyForFunctions.clear();
             traverseToFile();
         });
 
+        // Actions for NameOfMaxFreq button
         btNameOfMaxFreq.setOnAction(e -> {
+            txtTotalFrequencyForFunctions.setVisible(false);
+            txtTotalFrequencyForFunctions.clear();
             Frequency frequency = new Frequency();
             Babys babys = Utilities.nameOfMaxFrequency(frequency);
             if (babys == null) {
@@ -370,11 +385,13 @@ public class MainInterface extends Application {
             }
         });
 
-        years.setOnAction(e -> {
-            int year = Utilities.totalNumberOfBabysInSelectedYear(years.getValue());
+        // Actions for years comboBox
+        cbxYears.setOnAction(e -> {
+            int year = Utilities.totalNumberOfBabysInSelectedYear(cbxYears.getValue());
             if (year == -1)
                 Message.displayMessage("Warning", " There are no data ");
             else {
+                txtTotalFrequencyForFunctions.setVisible(true);
                 txtTotalFrequencyForFunctions.setText("Total frequency: " + year);
             }
         });

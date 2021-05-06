@@ -10,15 +10,16 @@ public class BabyForTraverse implements Comparable<BabyForTraverse> {
     private String gender;
     private int frequency;
 
-    public BabyForTraverse(){
+    public BabyForTraverse() {
 
     }
+
     public BabyForTraverse(String name, char gender, int frequency) {
         this.name = name;
         this.frequency = frequency;
-        if(gender == 'F' || gender == 'f')
+        if (gender == 'F' || gender == 'f')
             this.gender = "Female";
-        if(gender == 'M' || gender == 'm')
+        if (gender == 'M' || gender == 'm')
             this.gender = "Male";
 
     }
@@ -55,6 +56,11 @@ public class BabyForTraverse implements Comparable<BabyForTraverse> {
 
     @Override
     public int compareTo(BabyForTraverse o) {
-        return 0;
+        int compare = this.name.compareTo(o.name);
+        if (compare == 0) {
+            compare = this.gender.compareTo(o.gender);
+        }
+        return compare;
+
     }
 }
