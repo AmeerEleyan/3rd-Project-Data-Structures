@@ -178,7 +178,6 @@ public class MainInterface extends Application {
 
                 current = current.getNext();
             }
-            System.gc();
             txtTotalFrequencyForTable.setText(totalFrequency + "");
             txtTotalRecord.setText(Utilities.BABYS_AVL_TREE.size() + "");
         } else {
@@ -404,6 +403,7 @@ public class MainInterface extends Application {
         try {
             File file = new File("Babys.csv");
             PrintWriter writer = new PrintWriter(file);
+            writer.println("Baby, Gender, TotalFrequency");
             writer.println(Utilities.BABYS_AVL_TREE.traverseLevelOrder().toString());
             writer.close();
             Message.displayMessage("Successfully", " Successfully exported to the file ");

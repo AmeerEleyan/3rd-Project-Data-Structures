@@ -58,7 +58,6 @@ public class AVL_Tree<T extends Comparable<T>> {
                 }
             }
         }
-        System.gc();
         return size;
     }
 
@@ -79,7 +78,6 @@ public class AVL_Tree<T extends Comparable<T>> {
             else if (compare > 0) searcher = searcher.getRight();
             else searcher = searcher.getLeft();
         }
-        System.gc();
         return null;
     }
 
@@ -93,7 +91,6 @@ public class AVL_Tree<T extends Comparable<T>> {
             if (node.hasRight()) node = node.getRight();
             else return node.getDate();
         }
-        System.gc();
         return null;
     }
 
@@ -107,7 +104,6 @@ public class AVL_Tree<T extends Comparable<T>> {
             if (node.hasLeft()) node = node.getLeft();
             else return node.getDate();
         }
-        System.gc();
         return null;
     }
 
@@ -154,7 +150,6 @@ public class AVL_Tree<T extends Comparable<T>> {
     private int heightDifference(TNode<T> tNode) {
         int left = this.height(tNode.getLeft());
         int right = this.height(tNode.getRight());
-        System.gc();
         return left - right;
     }
 
@@ -197,7 +192,6 @@ public class AVL_Tree<T extends Comparable<T>> {
 
             // clear frequency obj
             if (data instanceof Babys) ((Babys) data).clearFrequency();
-            System.gc();
 
             this.root = this.rebalance(tempRoot);
         }
@@ -313,7 +307,6 @@ public class AVL_Tree<T extends Comparable<T>> {
 
             successor.setLeft(current.getLeft());
         }
-        System.gc();
         return current;
     }
 
@@ -332,7 +325,6 @@ public class AVL_Tree<T extends Comparable<T>> {
             parentOfSuccessor.setLeft(successor.getRight());
             successor.setRight(node.getRight());
         }
-        System.gc();
         return successor;
     }
 
@@ -374,7 +366,6 @@ public class AVL_Tree<T extends Comparable<T>> {
                     tempQueue.enqueue(tempNode.getRight());
                 }
             }
-            System.gc();
         }
     }
 }

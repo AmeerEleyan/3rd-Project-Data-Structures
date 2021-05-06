@@ -70,7 +70,6 @@ public final class Utilities {
                     tempQueue.enqueue(tempNode.getRight());
                 }
             }
-            System.gc();
             return maxBaby;
         }
         return null; // no data in the tree
@@ -84,7 +83,6 @@ public final class Utilities {
             sum += current.getData().getFrequency();
             current = current.getNext();
         }
-        System.gc();
         return sum;
     }
 
@@ -117,7 +115,6 @@ public final class Utilities {
                     tempQueue.enqueue(tempNode.getRight());
                 }
             }
-            System.gc();
             return totalBabys;
         }
         return -1;
@@ -145,7 +142,6 @@ public final class Utilities {
                 count = 0;
             }
         }
-        System.gc();
         if (count == 0) return 0;
         return Integer.parseInt(year.trim());
     }
