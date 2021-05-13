@@ -86,12 +86,12 @@ public final class Utilities {
         return sum;
     }
 
+    // get total number of babys in a selected year and travers it
+    public static int traverseSelectedYear(int year, LinkedList<BabyForTraverse> babyForTraverseLinkedList) {
 
-    // get total number of babys in a selected year
-    public static int totalNumberOfBabysInSelectedYear(int year) {
         TNode<Babys> rootOfTree = BABYS_AVL_TREE.getRoot();
         LinkedQueue<TNode<Babys>> tempQueue = new LinkedQueue<>();
-        int totalBabys = 0;
+        int totalBabysFrequency = 0;
         if (rootOfTree != null) {
 
             tempQueue.enqueue(rootOfTree);
@@ -101,9 +101,13 @@ public final class Utilities {
                 TNode<Babys> tempNode = tempQueue.dequeue();
 
                 // get frequency for current node in a selected year
-                int tempTotal = getFrequencyInASelectedYearFromLinkedList(tempNode.getFrequencyLinkedList(), year);
-                if (tempTotal != -1)
-                    totalBabys += tempTotal;
+                Frequency frequency = tempNode.getFrequencyLinkedList().search(new Frequency(year));
+
+                if (frequency != null) {
+                    totalBabysFrequency += frequency.getFrequency();
+                    babyForTraverseLinkedList.insertAtLast(new BabyForTraverse(tempNode.getDate().getName(), tempNode.getDate().getGender(), frequency.getFrequency()));
+
+                }
 
                 // insert first.left to tempQueue
                 if (tempNode.getLeft() != null) {
@@ -115,17 +119,10 @@ public final class Utilities {
                     tempQueue.enqueue(tempNode.getRight());
                 }
             }
-            return totalBabys;
+            return totalBabysFrequency;
         }
         return -1;
-    }
 
-    //get frequency in a selected year in the linkedList
-    private static int getFrequencyInASelectedYearFromLinkedList(LinkedList<Frequency> frequencyLinkedList, int year) {
-        Frequency searcherForYear = frequencyLinkedList.search(new Frequency(year));
-        if (searcherForYear == null) // year not found
-            return -1;
-        return searcherForYear.getFrequency();
     }
 
 

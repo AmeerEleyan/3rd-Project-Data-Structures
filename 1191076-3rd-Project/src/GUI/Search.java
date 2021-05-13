@@ -124,6 +124,7 @@ public final class Search {
                         if (frequencyLinkedList == null) { // baby does not exist
                             Message.displayMessage("Warning", txtName.getText() + " Does Not exist ");
                             frequencyTableView.getItems().clear();
+                            txtTotalFrequencyForTable.clear();
                             txtName.clear();
                             male.setSelected(false);
                             female.setSelected(false);

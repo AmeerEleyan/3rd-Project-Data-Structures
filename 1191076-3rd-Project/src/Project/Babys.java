@@ -102,7 +102,7 @@ public class Babys implements Comparable<Babys> {
     // compare two object based to the name and gender
     @Override
     public int compareTo(Babys o) {
-        int compareName = this.name.compareTo(o.name);
+        int compareName = this.name.toLowerCase().compareTo(o.name.toLowerCase());
         if (compareName == 0) return Character.compare(this.gender, o.gender);
         else return compareName;
 
