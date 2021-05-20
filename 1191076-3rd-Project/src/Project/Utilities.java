@@ -30,10 +30,10 @@ public final class Utilities {
 
     // get average frequency for a specific node
     public static float averageFrequency(Babys data) {
-        TNode<Babys> searcherForBaby = BABYS_AVL_TREE.search(data);
+        TNode<Babys> searcherForBaby = BABYS_AVL_TREE.search(data);// log n
         if (searcherForBaby != null) {
-            int length = searcherForBaby.getFrequencyLinkedList().length();
-            return totalFrequency(searcherForBaby.getFrequencyLinkedList().getHead()) / (float) length;
+            int length = searcherForBaby.getFrequencyLinkedList().length(); // n
+            return totalFrequency(searcherForBaby.getFrequencyLinkedList().getHead()) / (float) length; // n
         }
         return -1; // not found
     }

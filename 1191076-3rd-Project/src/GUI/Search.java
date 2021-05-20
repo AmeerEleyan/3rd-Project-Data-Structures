@@ -119,6 +119,7 @@ public final class Search {
                         if (male.isSelected()) gender = 'M';
                         else gender = 'F';
                         // get the baby info is exist
+                        // n
                         LinkedList<Frequency> frequencyLinkedList = Utilities.searchForBabys(new Babys(txtName.getText().trim(), gender));
 
                         if (frequencyLinkedList == null) { // baby does not exist

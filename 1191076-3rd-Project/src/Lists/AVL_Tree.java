@@ -188,17 +188,18 @@ public class AVL_Tree<T extends Comparable<T>> {
                 root.insertToLinkedList(((Babys) data).getFrequency());
         } else {
             TNode<T> tempRoot = this.root;
-            this.add(data, tempRoot);
+            this.add(data, tempRoot);//  n log n
 
             // clear frequency obj
             if (data instanceof Babys) ((Babys) data).clearFrequency();
 
-            this.root = this.rebalance(tempRoot);
+            this.root = this.rebalance(tempRoot);// n
         }
 
     }
 
     // Add new element to the tree recursively and set tree rebalance
+    // n log n
     private void add(T data, TNode<T> root) {
         if (data.compareTo(root.getDate()) == 0 && data instanceof Babys) {
             // add Frequency obj to linkedList that inside node
